@@ -1,15 +1,14 @@
+# The AutoDRIVE simulator runs natively on the host and connects to the bridge on :4567.
 services:
   ros:
     build: .
-    network_mode: host
-    privileged: true
+    image: sigrobotics_f1tenth:humble
     stdin_open: true
     tty: true
-    environment:
-      - DISPLAY=${DISPLAY}
-      - ROS_DOMAIN_ID=0
+    ports:
+      - "4567:4567"   # AutoDRIVE bridge
+      - "8765:8765"   # Foxglove
     volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
       - ./ws:/root/ws
     working_dir: /root/ws
-    command: bash -c "echo 'source /opt/ros/humble/setup.bash' >> ~/.bashrc && bash"
+    command: bash
